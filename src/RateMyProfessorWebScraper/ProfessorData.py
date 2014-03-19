@@ -27,9 +27,9 @@ class RateMyProfessorData(object):
         
     def __str__(self):
         self_str = self.last_name + ", " + self.first_name + "\n" 
-        self_str += self.quality + ", " + self.helpfulness + ", " + self.clarity + ", " + self.easiness + "\n"
-        self_str += self.average_grade + "\n" 
-        self_str += self.hotness + "\n" 
+        self_str += str(self.quality) + ", " + str(self.helpfulness) + ", " + str(self.clarity) + ", " + str(self.easiness) + "\n"
+        self_str += str(self.average_grade) + "\n" 
+        self_str += str(self.hotness) + "\n" 
         self_str += self.ratemyprofessor_url
         return self_str
 

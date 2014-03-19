@@ -99,7 +99,6 @@ crns = ['10195', '26057', '26048', '26365', '57689']
 class_info = ClassGenInfo(year, term, code, course_id, subject, title, description, credit_hours, crns)
 
 cls = ClassGeneral(class_info)
-print(cls.__str__())
 
 #create sections objects
 children = cls.get_children()
@@ -108,9 +107,7 @@ for child in children:
     print(child.__str__())
     
 print("script end ClassGeneral.")   
- '''   
-    
-
+'''
     
     
     

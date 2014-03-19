@@ -1,3 +1,4 @@
+
 '''
 Created on Mar 5, 2014
 
@@ -5,12 +6,11 @@ Created on Mar 5, 2014
 '''
 
 from collections import namedtuple
-from data.ClassGeneral import ClassGeneral
-from collections import namedtuple
-from data.ClassSection import ClassSection
 from data.Term import Term
-from data.Subject import Subject
 from connect.Monnect import ConnectM
+
+from KoofersWebScraper.KoofersWebScraper import get_course_list
+from RateMyProfessorWebScraper.WebScraper import get_prof_list
 
 def get_subjects(year, term):
     
@@ -47,21 +47,17 @@ client_sections.connect()
 client_sections.set_database_name('courses')
 client_sections.set_collection('courses_section')
 
-sections_collection = client_sections.client[client_sections.db_name][client_sections.collection_name]
+subjects = get_subjects('2014', 'spring')
 
 
-for e in sections_collection.find():
-    print(e)
 
-print(sections_collection.find({'year' : '2014'}).count())
-
-#subjects = get_subjects('2014', 'spring')
+'''
 #SUBJECT (like Computer Science, Asian American Studies, etc.)
 SubjectInfo = namedtuple('SubjectInfo', 'year term code course_ids')
 subject_info = SubjectInfo('2014', 'spring', 'AAS', {'100', '120', '246', '265', '281', '283', '286', '299', '310', '317', '328', '365', '397', '435', '479', '539', '561'})
 subject = Subject(subject_info)
 subjects = {subject}
-
+'''
 
 for s in subjects:
     print('Subject: ' + s.code)
@@ -85,9 +81,37 @@ for s in subjects:
         
             if None == client_sections.section_exists(class_section_dict):
                 client_sections.section_insert(class_section_dict)
+                
+print("Subjects: ")
+client_subject_col = client_courses.client[client_courses.db_name][client_courses.collection_name]
+#client_courses.client[client_courses.db_name].drop_collection(client_courses.collection_name)        #remove all courses
+print(client_subject_col.find({'year' : '2014'}).count())
 
-client_courses.disconnect()
+print("Sections: ")
+client_section_col = client_sections.client[client_sections.db_name][client_sections.collection_name]
+#client_sections.client[client_sections.db_name].drop_collection(client_sections.collection_name)    #remove all sections
+print(client_section_col.find({'year' : '2014'}).count())
+
 client_sections.disconnect()
 
+client_profs = ConnectM(HOST, PORT)
+client_profs.connect()
+client_profs.set_database_name('professors')
+client_profs.set_collection('professors')
 
-print(sections_collection.find({'year' : '2014'}).count())
+print('Adding Koofers course data')
+
+course_list = get_course_list()
+for course in course_list:
+    print(course)
+    client_courses.course_update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc)
+    
+print('Adding RateMyProfessors professor data')
+    
+prof_list = get_prof_list()
+for prof in prof_list:
+    print(prof)
+    client_profs.insert(prof.dataToDoc)
+
+client_profs.disconnect()
+client_courses.disconnect()

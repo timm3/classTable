@@ -129,7 +129,33 @@ class ConnectM(object):
         result = collection.insert(section)
         
         return result  
+    
+             
+    #==========================================================================  
+    #
+    #==========================================================================
+    def course_update(self, query, course):
+        
+        db = self.client[self.db_name]   
+        collection = db[self.collection_name]
+        
+        result = collection.update(query, course)
+        
+        return result
+        
          
+    #==========================================================================  
+    #
+    #==========================================================================
+    def insert(self, data):  
+        
+        db = self.client[self.db_name]   
+        collection = db[self.collection_name]
+        
+        result = collection.insert(data)
+        
+        return result  
+        
     #==========================================================================  
     #
     #==========================================================================

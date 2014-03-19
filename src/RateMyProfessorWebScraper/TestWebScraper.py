@@ -5,7 +5,7 @@ Created on Feb 12, 2014
 @updated: Feb 16, 2014 by Sam Gegg
 '''
 import unittest
-import WebScraper
+import RateMyProfessorWebScraper.WebScraper as WebScraper
 from urllib.request import urlopen
 
 PROFESSOR_HTML = urlopen("http://www.ratemyprofessors.com/ShowRatings.jsp?tid=260254").read()

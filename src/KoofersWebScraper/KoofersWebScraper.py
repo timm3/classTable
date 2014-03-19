@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 from urllib.request import urlopen
 import re
 import queue
-import KoofersCourseData
+from KoofersWebScraper.KoofersCourseData import KoofersCourseData as CourseData
 
 BASE_SCHOOL_URL = "https://www.koofers.com/university-of-illinois-urbana-champaign-uiuc/browse?s=4&p=1"
 BASE_PAGE_URL = "https://www.koofers.com"
@@ -33,7 +33,7 @@ Helper function for construct_URL_queue
 '''
 def get_course_links(html, url_queue):
     course_strainer = SoupStrainer(class_="title")
-    course_soup = BeautifulSoup(urlopen(BASE_SCHOOL_URL).read(), parse_only = course_strainer)
+    course_soup = BeautifulSoup(html, parse_only = course_strainer)
     for link in course_soup.find_all('a') :
         url_queue.put(BASE_PAGE_URL + link['href'])
  
@@ -65,7 +65,12 @@ def get_data(html, index):
 Returns the average grade as GPA of  a student of this course as float data
 '''
 def get_gpa(html):
-    return float(get_data(html, Indexes.GPA))
+    gpa = get_data(html, Indexes.GPA)
+    try:
+        return float(gpa)
+    except ValueError:
+        return None
+
   
 '''
 Returns the average professor's rating for this course as float data from 0 to 5 stars
@@ -108,11 +113,12 @@ def get_course_list():
         course_html = urlopen(course_url).read()
         
         gpa = get_gpa(course_html)
+        if not gpa: continue
         prof_rating = get_prof_rating(course_html)
         grade_breakdown = get_course_grade_breakdown(course_html)
         course_id = get_course_id(course_html)
-        
-        course_data = KoofersCourseData.KoofersCourseData(gpa, prof_rating, grade_breakdown, course_id, course_url)
+        if grade_breakdown is None: continue
+        course_data = CourseData(gpa, prof_rating, grade_breakdown, course_id, course_url)
         course_list.append(course_data)
         
     return course_list

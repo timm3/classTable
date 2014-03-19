@@ -192,7 +192,7 @@ class XMLReader(object):
     @staticmethod
     def extract_section_data(xml_input):
         
-        SectionInfo = namedtuple('SectionInfo', 'year term part_of_term c_type section_number crn building_name room_number start_date end_date days_of_week start end instructors')
+        SectionInfo = namedtuple('SectionInfo', 'year term part_of_term c_type section_number crn building_name room_number start_date end_date days_of_week start end instructors total_slots open_slots')
         
         root = etree.fromstring(xml_input)
         parents = root.find('parents')
@@ -226,9 +226,9 @@ class XMLReader(object):
         meetings_data = root.find('meetings')
         if meetings_data != None:
             meetings_data = XMLReader.extract_meetings_tag(meetings_data)
-            section_info = SectionInfo(year, term, part_of_term, meetings_data.c_type, section_number, crn, meetings_data.building_name, meetings_data.room_number, start_date, end_date, meetings_data.days_of_week, meetings_data.start, meetings_data.end, meetings_data.instructors)
+            section_info = SectionInfo(year, term, part_of_term, meetings_data.c_type, section_number, crn, meetings_data.building_name, meetings_data.room_number, start_date, end_date, meetings_data.days_of_week, meetings_data.start, meetings_data.end, meetings_data.instructors, -1, -1)
         else:
-            section_info = SectionInfo(year, term, part_of_term, None, section_number, crn, None, None, start_date, end_date, None, None, None, None)  
+            section_info = SectionInfo(year, term, part_of_term, None, section_number, crn, None, None, start_date, end_date, None, None, None, None, -1, -1)  
                 
         return section_info
 

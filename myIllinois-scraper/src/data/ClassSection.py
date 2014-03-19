@@ -25,7 +25,8 @@ class ClassSection(object):
         self.start = section_info.start
         self.end = section_info.end
         self.instructors = section_info.instructors
-        
+        self.total_slots = section_info.total_slots
+        self.open_slots = section_info.open_slots
         
     #==========================================================================  
     #
@@ -52,6 +53,9 @@ class ClassSection(object):
         else:
             for i in self.instructors:
                 self_str += " " + i.get_first_name() + " " + i.get_last_name()
+       
+        self_str += " total_sots: " + str(self.total_slots)
+        self_str += " open_slots: " + str(self.open_slots)
         
         return self_str         
             
@@ -75,11 +79,12 @@ class ClassSection(object):
 
 
 '''
-from collections import namedtuple
-from data.Instructor import Instructor
 print("script start ClassSection:")
 
-SectionInfo = namedtuple('SectionInfo', 'year term part_of_term c_type section_number crn building_name room_number start_date end_date days_of_week start end instructors')
+from collections import namedtuple
+from data.Instructor import Instructor
+
+SectionInfo = namedtuple('SectionInfo', 'year term part_of_term c_type section_number crn building_name room_number start_date end_date days_of_week start end instructors total_slots open_slots')
 
 year = "2014" 
 term = "spring"
@@ -95,15 +100,16 @@ days_of_week = "MWF"
 start = "12:00 PM"
 end = "12:50 PM"
 instructors = [Instructor("E", "Guntner"), Instructor("A", "Harek")]
+total_slots = -1
+open_slots = -1
 
-section_info = SectionInfo(year, term, part_of_term, c_type, section_number, crn, building_name, room_number, start_date, end_date, days_of_week, start, end, instructors)
+section_info = SectionInfo(year, term, part_of_term, c_type, section_number, crn, building_name, room_number, start_date, end_date, days_of_week, start, end, instructors, total_slots, open_slots)
 
 sect = ClassSection(section_info)
 print(sect)
 
 print("script end ClassSection.")         
-'''                 
-                 
+'''             
                  
                  
                  

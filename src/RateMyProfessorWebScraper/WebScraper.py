@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 from urllib.request import urlopen
 import re
 import queue
-import ProfessorData
+from RateMyProfessorWebScraper.ProfessorData import RateMyProfessorData as ProfessorData
 
 BASE_SCHOOL_URL = "http://www.ratemyprofessors.com/SelectTeacher.jsp?sid=1112&pageNo=1"
 
@@ -149,7 +149,7 @@ def get_prof_list():
         grade = get_grade(professor_html)
         hotness = get_hotness(professor_html)
         
-        course_data = ProfessorData.RateMyProfessorData(name, score_card_data, grade, hotness, professor_url)
+        course_data = ProfessorData(name, score_card_data, grade, hotness, professor_url)
         prof_list.append(course_data)
     return prof_list
 
