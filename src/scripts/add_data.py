@@ -1,8 +1,8 @@
 
 '''
-Created on Mar 5, 2014
+Created on Mar 17, 2014
 
-@author: Michal
+@author: Sam Gegg
 '''
 from connect.Monnect import ConnectM
 
@@ -25,13 +25,11 @@ client_profs.set_database_name('professors')
 client_profs.set_collection('professors')
 
 print('Adding Koofers course data')
-'''
+
 course_list = get_course_list()
 for course in course_list:
     print(course)
     client_courses.course_update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc())
-'''
-print("Skipped!")
   
 client_courses.disconnect()
 
@@ -45,4 +43,5 @@ for prof in prof_list:
     client_profs.insert(prof.dataToDoc())
 
 client_profs.disconnect()
+
 print('Finished adding professor data')
