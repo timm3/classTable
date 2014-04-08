@@ -118,8 +118,6 @@ class XMLReader(object):
         
         URLInfo = namedtuple('URLInfo', 'year term code course_id crn')
         
-        course_ids = []
-        
         url_info = URLInfo(year, term, code, course_id, crn)
         
         xml_data = MyIllinoisXMLRequest.get_data(url_info)
@@ -320,12 +318,18 @@ class XMLReader(object):
     @staticmethod            
     def parse_credit_hours(credits_str):
         
-        credits = []
+        credit_list = []
+        last = None
         for s in credits_str.split(): 
-            if s.isdigit():
-                credits.append(s)
-        
-        return credits
+            if last is not None and s.isdigit():
+                credit_list.extend(range(last+1,int(s)+1))
+                last = None
+            elif s.isdigit():
+                credit_list.append(int(s))
+            elif s.lower() == 'to':
+                last = credit_list[len(credit_list)-1]
+                
+        return credit_list
    
    
     #==========================================================================  
