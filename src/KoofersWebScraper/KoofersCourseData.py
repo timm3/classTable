@@ -31,14 +31,14 @@ class KoofersCourseData(object):
         return self_str
         
     def dataToDoc(self):
-        doc = {"gpa": self.gpa, "prof_rating": self.prof_rating, 
-               "precentA": self.percent_A, "precentB": self.percent_B, "precentC": self.percent_C, 
+        doc = {"gpa": self.gpa, "prof_rating": self.prof_rating,
+               "precentA": self.percent_A, "precentB": self.percent_B, "precentC": self.percent_C,
                "precentD": self.percent_D, "precentF": self.percent_F,
-               "subject_code": self.subject_code, "course_number": self.course_number, 
+               "subject_code": self.subject_code, "course_number": self.course_number,
                "koofers_url": self.koofers_url}
         return doc
     def dataToUpdateDoc(self):
-        update_doc = { '$set': {"gpa": self.gpa, "prof_rating": self.prof_rating, 
+        update_doc = { '$set': {"gpa": self.gpa, "prof_rating": self.prof_rating,
                                 "precentA": self.percent_A, "precentB": self.percent_B,
                                 "precentC": self.percent_C, "precentD": self.percent_D,
                                 "precentF": self.percent_F, "koofers_url": self.koofers_url}

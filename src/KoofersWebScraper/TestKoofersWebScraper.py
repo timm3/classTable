@@ -26,15 +26,15 @@ class Test(unittest.TestCase):
         course_html = CLASS_HTML
         
         gpa = KoofersWebScraper.get_gpa(course_html)
-        #if not gpa: continue
+        # if not gpa: continue
         prof_rating = KoofersWebScraper.get_prof_rating(course_html)
         grade_breakdown = KoofersWebScraper.get_course_grade_breakdown(course_html)
         course_id = KoofersWebScraper.get_course_id(course_html)
-        #if grade_breakdown is None: continue
+        # if grade_breakdown is None: continue
         course_data = KoofersWebScraper.CourseData(gpa, prof_rating, grade_breakdown, course_id, "https://www.koofers.com/university-of-illinois-urbana-champaign-uiuc/atms/120-severe-and-hazardous-weather/")
         print(isinstance(course_data.dataToUpdateDoc(), dict))
 
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
+    # import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

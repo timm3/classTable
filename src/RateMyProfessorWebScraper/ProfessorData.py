@@ -37,7 +37,7 @@ class RateMyProfessorData(object):
     This function takes a Professor and returns a Document for mongoDB to use
     '''
     def dataToDoc(self):
-        doc = {"first_name": self.first_name, "last_name": self.last_name, 
-               "quality": self.quality, "helpfulness": self.helpfulness, "clarity": self.clarity, "easiness": self.easiness, 
+        doc = {"first_name": self.first_name, "last_name": self.last_name,
+               "quality": self.quality, "helpfulness": self.helpfulness, "clarity": self.clarity, "easiness": self.easiness,
                "grade": self.average_grade, "hotness": self.hotness, "ratemyprofessor_url": self.ratemyprofessor_url}
         return doc

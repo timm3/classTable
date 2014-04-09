@@ -169,7 +169,7 @@ class XMLReader(object):
                 
         crns_tag = root.find('sections')
         if crns_tag != None:
-            crns = []                               #TODO: move crns = [] above the if.. so if the if is false crns is still declared
+            crns = []  # TODO: move crns = [] above the if.. so if the if is false crns is still declared
             for s in crns_tag.iter('section'):
                 crns.append(s.get('id'))
                 
@@ -322,13 +322,17 @@ class XMLReader(object):
         last = None
         for s in credits_str.split(): 
             if last is not None and s.isdigit():
-                credit_list.extend(range(last+1,int(s)+1))
+                credit_list.extend(range(last + 1, int(s) + 1))
                 last = None
             elif s.isdigit():
                 credit_list.append(int(s))
             elif s.lower() == 'to' and credit_list:
-                last = credit_list[len(credit_list)-1]
+                last = credit_list[len(credit_list) - 1]
                 
+        for x in credit_list:
+            if isinstance(x, str):
+                print(credit_list)
+                break
         return credit_list
    
    

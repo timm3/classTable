@@ -61,35 +61,41 @@ subjects = {subject}
 
 for s in subjects:
     print('Subject: ' + s.code)
-    #for each subject get all classes
+    # for each subject get all classes
     subject_classes = s.get_children()
     
-    #add subject's classes to database
+    # add subject's classes to database
     for sc in subject_classes:
         print('\tClass: ' + sc.title)
         class_dict = sc.__dict__
         
-        #add class to database
-        if None == client_courses.course_exists(class_dict):
-            client_courses.course_insert(class_dict)
+        # add class to database
+        # if None == client_courses.course_exists(class_dict):
+        client_courses.course_insert(class_dict)
 
-        #add classe's sections to database
-        class_sections = sc.get_children()
+        # add classe's sections to database
+        class_sections = None
+        while not class_sections:
+            try:
+                class_sections = sc.get_children()
+            except TimeoutError:
+                print("TimeoutError")
+                
         for cs in class_sections:
             print('\t\tSection: ' + cs.crn)
             class_section_dict = cs.get_dictionary()
         
-            if None == client_sections.section_exists(class_section_dict):
-                client_sections.section_insert(class_section_dict)
+            # if None == client_sections.section_exists(class_section_dict):
+            client_sections.section_insert(class_section_dict)
                 
 print("Subjects: ")
 client_subject_col = client_courses.client[client_courses.db_name][client_courses.collection_name]
-#client_courses.client[client_courses.db_name].drop_collection(client_courses.collection_name)        #remove all courses
+# client_courses.client[client_courses.db_name].drop_collection(client_courses.collection_name)        #remove all courses
 print(client_subject_col.find({'year' : '2014'}).count())
 
 print("Sections: ")
 client_section_col = client_sections.client[client_sections.db_name][client_sections.collection_name]
-#client_sections.client[client_sections.db_name].drop_collection(client_sections.collection_name)    #remove all sections
+# client_sections.client[client_sections.db_name].drop_collection(client_sections.collection_name)    #remove all sections
 print(client_section_col.find({'year' : '2014'}).count())
 
 client_sections.disconnect()

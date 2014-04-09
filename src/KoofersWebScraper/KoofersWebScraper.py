@@ -33,7 +33,7 @@ Helper function for construct_URL_queue
 '''
 def get_course_links(html, url_queue):
     course_strainer = SoupStrainer(class_="title")
-    course_soup = BeautifulSoup(html, parse_only = course_strainer)
+    course_soup = BeautifulSoup(html, parse_only=course_strainer)
     for link in course_soup.find_all('a') :
         url_queue.put(BASE_PAGE_URL + link['href'])
  
@@ -57,7 +57,7 @@ Helper function to extract data from the HTML page's main data source, that whic
 '''
 def get_data(html, index):
     strainer = SoupStrainer(style="margin-bottom:10px;")
-    right_box_soup = BeautifulSoup(html, parse_only = strainer)
+    right_box_soup = BeautifulSoup(html, parse_only=strainer)
     div = right_box_soup.find_all('div', recursive=False)[index]
     return div.find('a').string
     
@@ -84,7 +84,7 @@ Returns the course grade breakdown of this class a list of floats as follows
 '''
 def get_course_grade_breakdown(html):
     javascript_strainer = SoupStrainer(type='text/javascript')
-    javascript = BeautifulSoup(html, parse_only = javascript_strainer)
+    javascript = BeautifulSoup(html, parse_only=javascript_strainer)
     for spoon in javascript:
         if spoon.string:
             variable_namings = re.findall("(?<={y: ).*?(?=,)", spoon.string)
@@ -96,7 +96,7 @@ def get_course_grade_breakdown(html):
 
 def get_course_id(html):
     course_id_strainer = SoupStrainer(class_="course_number")
-    course_id_html = BeautifulSoup(html, parse_only = course_id_strainer)
+    course_id_html = BeautifulSoup(html, parse_only=course_id_strainer)
     return course_id_html.find(class_="course_number").string
     
 

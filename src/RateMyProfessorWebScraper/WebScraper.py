@@ -70,7 +70,7 @@ teacher who left ratings
 def get_grade(html):
     grade_strainer = SoupStrainer(id="rateNumber")
     strongs_html_soup = BeautifulSoup(html, parse_only=grade_strainer).findAll("strong") 
-    #requires further searching to find strong tag containing letter_grade
+    # requires further searching to find strong tag containing letter_grade
     letter_grade = ''
     for spoon in strongs_html_soup:
         if spoon.string:
@@ -80,7 +80,7 @@ def get_grade(html):
                 for result in results[0]:
                     if result is not '':
                         letter_grade = result
-    if letter_grade == '': #only for debugging purposes
+    if letter_grade == '':  # only for debugging purposes
         print(strongs_html_soup)
         print(get_name(html))
         raise AttributeError('failed to find grade')
@@ -168,7 +168,7 @@ def get_comments(professor_html):
     comment_strain = SoupStrainer(class_=re.compile("^entry (?=odd $|even $)"))
     # regex = "entry odd" or "entry even"
     comment_soup = BeautifulSoup(professor_html, parse_only=comment_strain)
-    comments= []
+    comments = []
     
     for spoon in comment_soup:
         comments.append(spoon.string)

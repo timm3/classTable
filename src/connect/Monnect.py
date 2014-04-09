@@ -139,7 +139,7 @@ class ConnectM(object):
         db = self.client[self.db_name]   
         collection = db[self.collection_name]
         
-        result = collection.update(query, course)
+        result = collection.update(query, course, multi=True)
         
         return result
         
