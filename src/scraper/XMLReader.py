@@ -326,7 +326,7 @@ class XMLReader(object):
                 last = None
             elif s.isdigit():
                 credit_list.append(int(s))
-            elif s.lower() == 'to':
+            elif s.lower() == 'to' and credit_list:
                 last = credit_list[len(credit_list)-1]
                 
         return credit_list
