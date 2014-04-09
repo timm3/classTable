@@ -4,7 +4,7 @@ Created on Mar 17, 2014
 
 @author: Sam Gegg
 '''
-from Monnect import ConnectM
+from connect.Monnect import ConnectM
 
 from KoofersWebScraper.KoofersWebScraper import get_course_list
 from RateMyProfessorWebScraper.WebScraper import get_prof_list
