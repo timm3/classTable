@@ -93,6 +93,8 @@ client_section_col = client_sections.client[client_sections.db_name][client_sect
 print(client_section_col.find({'year' : '2014'}).count())
 
 client_sections.disconnect()
+client_courses.disconnect()
+client_courses.connect()
 
 client_profs = ConnectM(HOST, PORT)
 client_profs.connect()
@@ -104,7 +106,8 @@ print('Adding Koofers course data')
 course_list = get_course_list()
 for course in course_list:
     print(course)
-    client_courses.course_update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc)
+    print(course.dataToUpdateDoc())
+    client_courses.course_update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc())
     
 print('Adding RateMyProfessors professor data')
     
