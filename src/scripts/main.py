@@ -70,8 +70,8 @@ for s in subjects:
         class_dict = sc.__dict__
         
         # add class to database
-        # if None == client_courses.course_exists(class_dict):
-        client_courses.course_insert(class_dict)
+        if None == client_courses.course_exists(class_dict):
+            client_courses.course_insert(class_dict)
 
         # add classe's sections to database
         class_sections = None
@@ -85,8 +85,8 @@ for s in subjects:
             print('\t\tSection: ' + cs.crn)
             class_section_dict = cs.get_dictionary()
         
-            # if None == client_sections.section_exists(class_section_dict):
-            client_sections.section_insert(class_section_dict)
+            if None == client_sections.section_exists(class_section_dict):
+                client_sections.section_insert(class_section_dict)
                 
 print("Subjects: ")
 client_subject_col = client_courses.client[client_courses.db_name][client_courses.collection_name]
