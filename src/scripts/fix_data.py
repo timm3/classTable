@@ -4,6 +4,8 @@ Created on Apr 9, 2014
 @author: Sam
 '''
 
+from connect.Monnect import ConnectM
+
 def convert_credit_hours(collection, cursor):
     for json in cursor:
         credit_hours_list = json['credit_hours']
@@ -34,19 +36,22 @@ def delete_extra_sections(collection2, cursor2):
     for keep in cursor2:
         ex_id = keep['_id']
         check = keep.copy()
+        crn_check = {'crn':check['crn']}
+        find_crn = collection2.find(crn_check)
+        for other in find_crn:
+            check.update(other)
         del check['_id']
-        if collection2.find(check).count() > 1:
-            print(collection2.find(check).count())
-            remove_query = check.copy()
+        print(find_crn.count())
+        if collection2.find(crn_check).count() > 1:
+            print('Deleting')
+            remove_query = crn_check.copy()
             remove_query['_id'] = {'$ne': ex_id}
             collection2.remove(remove_query)
-            collection2.update(check, keep, upsert=True)
-            print(collection2.find(check).count())
-            print('NEXT')
-        cursor2.close()
-from connect.Monnect import ConnectM
-
-
+            print(collection2.find(crn_check).count())
+            collection2.update(crn_check, check, upsert=True)
+            print(collection2.find(crn_check).count())
+            print('Done deleting')
+    cursor2.close()
 
 '''
 Script gets all subjects in a given term of a given year.
@@ -67,6 +72,7 @@ delete_extra_courses(collection, cursor)
 collection2 = client_courses.client[client_courses.db_name]['courses_section']
 cursor2 = collection2.find({}, timeout=False)
 
+print(cursor2.count())
 delete_extra_sections(collection2, cursor2)
 
 print('done part 1')
