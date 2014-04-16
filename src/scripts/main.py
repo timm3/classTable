@@ -120,7 +120,7 @@ print('Adding RateMyProfessors professor data')
 prof_list = get_prof_list()
 for prof in prof_list:
     print(prof)
-    client_profs.insert(prof.dataToDoc)
+    client_profs.insert(prof.dataToDoc())
 
 client_profs.disconnect()
 client_courses.disconnect()
