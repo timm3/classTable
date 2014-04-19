@@ -19,6 +19,11 @@ class Test(unittest.TestCase):
         string = "0 TO 4 credits"
         self.xmlreader = XMLReader()
         self.assertEqual(self.xmlreader.parse_credit_hours(string), [0, 1, 2, 3, 4])
+        
+    def testParseTime(self):
+        string = '12:50 PM'
+        self.xmlreader = XMLReader()
+        self.assertEqual(self.xmlreader.parse_time(string), 1250)
 
 
 if __name__ == "__main__":

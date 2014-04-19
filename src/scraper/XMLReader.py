@@ -190,7 +190,7 @@ class XMLReader(object):
     @staticmethod
     def extract_section_data(xml_input):
         
-        SectionInfo = namedtuple('SectionInfo', 'year term part_of_term c_type section_number crn building_name room_number start_date end_date days_of_week start end instructors total_slots open_slots')
+        SectionInfo = namedtuple('SectionInfo', 'year term part_of_term c_type section_number crn building_name room_number start_date end_date days_of_week start end instructors total_slots open_slots start_num end_num')
         
         root = etree.fromstring(xml_input)
         parents = root.find('parents')
@@ -224,9 +224,9 @@ class XMLReader(object):
         meetings_data = root.find('meetings')
         if meetings_data != None:
             meetings_data = XMLReader.extract_meetings_tag(meetings_data)
-            section_info = SectionInfo(year, term, part_of_term, meetings_data.c_type, section_number, crn, meetings_data.building_name, meetings_data.room_number, start_date, end_date, meetings_data.days_of_week, meetings_data.start, meetings_data.end, meetings_data.instructors, -1, -1)
+            section_info = SectionInfo(year, term, part_of_term, meetings_data.c_type, section_number, crn, meetings_data.building_name, meetings_data.room_number, start_date, end_date, meetings_data.days_of_week, meetings_data.start, meetings_data.end, meetings_data.instructors, -1, -1, meetings_data.start_num, meetings_data.end_num)
         else:
-            section_info = SectionInfo(year, term, part_of_term, None, section_number, crn, None, None, start_date, end_date, None, None, None, None, -1, -1)  
+            section_info = SectionInfo(year, term, part_of_term, None, section_number, crn, None, None, start_date, end_date, None, None, None, None, -1, -1, None, None)  
                 
         return section_info
 
@@ -241,7 +241,7 @@ class XMLReader(object):
     @staticmethod
     def extract_meetings_tag(meetings):
         
-        MeetingData = namedtuple('MeetingsData', 'c_type building_name room_number days_of_week start end instructors')
+        MeetingData = namedtuple('MeetingsData', 'c_type building_name room_number days_of_week start end instructors start_num end_num')
         
         meeting = meetings.find('meeting')
         meeting_data = None
@@ -266,18 +266,35 @@ class XMLReader(object):
             start = meeting.find('start')
             if start != None:
                 start = start.text
+                start_num = XMLReader.parse_time(start.text)
+            else: start_num = None
             
             end = meeting.find('end')
             if end != None:
                 end = end.text
+                end_num = XMLReader.parse_time(end.text)
+            else: end_num = None
             
             instructors = meeting.find('instructors')      
             if instructors != None:
                 instructors = XMLReader.parse_instructors_tag(instructors)
             
-            meeting_data = MeetingData(c_type, building_name, room_number, days_of_week, start, end, instructors)
+            meeting_data = MeetingData(c_type, building_name, room_number, days_of_week, start, end, instructors, start_num, end_num)
         
         return meeting_data
+    
+    
+    @staticmethod
+    def parse_time(time):
+        time_int = 0
+        for index in range(0, len(time)):
+            if time[index].isnumeric():
+                time_int = 10*time_int + int(time[index])
+        if time_int >= 1200:
+            time_int -= 1200
+        if time[-2:].upper() == 'PM':
+            time_int += 1200
+        return time_int
     
     
     #==========================================================================  

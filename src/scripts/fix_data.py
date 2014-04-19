@@ -5,6 +5,23 @@ Created on Apr 9, 2014
 '''
 
 from connect.Monnect import ConnectM
+from scraper.XMLReader import XMLReader
+#from pymongo.errors import PyMongoError
+#from pprint import pprint
+
+def add_time_nums(collection):
+    #bulk = collection.initialize_unordered_bulk_op()
+    for start in collection.distinct('start'):
+        if start != 'ARRANGED' and start is not None:
+            collection.update({'start': start}, {'$set': {'start_num': XMLReader.parse_time(start)}})
+    for end in collection.distinct('end'):
+        if end != 'ARRANGED' and end is not None:
+            collection.update({'end': end}, {'$set': {'end_num': XMLReader.parse_time(end)}})
+    #try:
+        #bulk.execute()
+    #except PyMongoError as bwe:
+        #pprint(bwe.details)
+    
 
 def convert_credit_hours(collection, cursor):
     for json in cursor:
@@ -62,26 +79,26 @@ PORT = 27017
 client_courses = ConnectM(HOST, PORT)
 client_courses.connect()
 client_courses.set_database_name('courses')
-client_courses.set_collection('courses_general')
+#client_courses.set_collection('courses_general')
 
-collection = client_courses.client[client_courses.db_name][client_courses.collection_name]
-cursor = collection.find({},timeout=False)
+#collection = client_courses.client[client_courses.db_name][client_courses.collection_name]
+#cursor = collection.find({},timeout=False)
 
-delete_extra_courses(collection, cursor)
+#delete_extra_courses(collection, cursor)
 
 collection2 = client_courses.client[client_courses.db_name]['courses_section']
-cursor2 = collection2.find({}, timeout=False)
+#cursor2 = collection2.find({}, timeout=False)
 
-print(cursor2.count())
-delete_extra_sections(collection2, cursor2)
+#print(cursor2.count())
+add_time_nums(collection2)
 
-print('done part 1')
+#print('done part 1')
 
 client_courses.disconnect()
-client_courses.connect()
+#client_courses.connect()
 
-convert_credit_hours(collection, cursor)
-cursor.close()
+#convert_credit_hours(collection, cursor)
+#cursor.close()
         
-collection.remove({"credit_hours":{"$in": [None, '0']}})
-client_courses.disconnect()
+#collection.remove({"credit_hours":{"$in": [None, '0']}})
+#client_courses.disconnect()

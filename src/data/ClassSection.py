@@ -24,6 +24,8 @@ class ClassSection(object):
         self.days_of_week = section_info.days_of_week
         self.start = section_info.start
         self.end = section_info.end
+        self.start_num = section_info.start_num
+        self.end_num = section_info.end_num
         self.instructors = section_info.instructors
         
         
@@ -45,6 +47,8 @@ class ClassSection(object):
         self_str += " days of week: " + str(self.days_of_week)
         self_str += " start: " + str(self.start)
         self_str += " end: " + str(self.end)
+        self_str += " start_num: " + str(self.start_num)
+        self_str += " end_num: " + str(self.end_num)
         self_str += " instructors:"
        
         if self.instructors == None:

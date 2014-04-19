@@ -8,6 +8,7 @@ from connect.Monnect import ConnectM
 
 from KoofersWebScraper.KoofersWebScraper import get_course_list
 from RateMyProfessorWebScraper.WebScraper import get_prof_list
+
 '''
 Script gets all subjects in a given term of a given year.
 '''
