@@ -41,7 +41,9 @@ print('Adding RateMyProfessors professor data')
 prof_list = get_prof_list()
 for prof in prof_list:
     print(prof)
-    client_profs.insert(prof.dataToDoc())
+    data_doc = prof.dataToDoc()
+    update_check = {'first_name': data_doc['first_name'], 'last_name': data_doc['last_name']}
+    client_profs.update(update_check, data_doc)
 
 client_profs.disconnect()
 

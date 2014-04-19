@@ -266,13 +266,13 @@ class XMLReader(object):
             start = meeting.find('start')
             if start != None:
                 start = start.text
-                start_num = XMLReader.parse_time(start.text)
+                start_num = XMLReader.parse_time(start)
             else: start_num = None
             
             end = meeting.find('end')
             if end != None:
                 end = end.text
-                end_num = XMLReader.parse_time(end.text)
+                end_num = XMLReader.parse_time(end)
             else: end_num = None
             
             instructors = meeting.find('instructors')      

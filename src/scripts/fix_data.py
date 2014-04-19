@@ -48,6 +48,17 @@ def delete_extra_courses(collection, cursor):
             remove_query['_id'] = {'$ne':ex_id}
             collection.remove(remove_query)
             collection.update(check, keep, upsert=True)
+            
+def delete_extra_profs(collection, cursor):
+    for keep in cursor:
+        ex_id = keep['_id']
+        check = keep.copy()
+        del check['_id']
+        if collection.find(check).count() > 1:
+            remove_query = check.copy()
+            remove_query['_id'] = {'$ne':ex_id}
+            collection.remove(remove_query)
+            collection.update(check, keep, upsert=True)
 
 def delete_extra_sections(collection2, cursor2):
     for keep in cursor2:
@@ -86,13 +97,17 @@ client_courses.set_database_name('courses')
 
 #delete_extra_courses(collection, cursor)
 
-collection2 = client_courses.client[client_courses.db_name]['courses_section']
+#collection2 = client_courses.client[client_courses.db_name]['courses_section']
 #cursor2 = collection2.find({}, timeout=False)
 
 #print(cursor2.count())
-add_time_nums(collection2)
+#add_time_nums(collection2)
 
 #print('done part 1')
+
+prof_collection = client_courses.client['professors']['professors']
+prof_cursor = prof_collection.find({}, timeout=False)
+delete_extra_profs(prof_collection, prof_cursor)
 
 client_courses.disconnect()
 #client_courses.connect()
