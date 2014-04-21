@@ -43,7 +43,8 @@ def construct_URL_queue():
         next_prof_links_html = BeautifulSoup(prof_links_url, parse_only=next_prof_links_html_strainer).find(id="next")
         if next_prof_links_html:
             prof_links_url = urlopen("http://www.ratemyprofessors.com" + next_prof_links_html['href']).read()
-        else: break
+        else: 
+            break
     return url_queue
 
 '''

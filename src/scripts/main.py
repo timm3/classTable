@@ -113,7 +113,7 @@ course_list = get_course_list()
 for course in course_list:
     print(course)
     print(course.dataToUpdateDoc())
-    client_courses.course_update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc())
+    client_courses.update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc())
     
 print('Adding RateMyProfessors professor data')
     

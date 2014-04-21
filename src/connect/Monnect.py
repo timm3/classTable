@@ -134,12 +134,12 @@ class ConnectM(object):
     #==========================================================================  
     #
     #==========================================================================
-    def course_update(self, query, course):
+    def update(self, query, data):
         
         db = self.client[self.db_name]   
         collection = db[self.collection_name]
         
-        result = collection.update(query, course, multi=True)
+        result = collection.update(query, data, multi=True)
         
         return result
         

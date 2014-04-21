@@ -20,21 +20,21 @@ client_courses.connect()
 client_courses.set_database_name('courses')
 client_courses.set_collection('courses_general')
 
-client_profs = ConnectM(HOST, PORT)
-client_profs.connect()
-client_profs.set_database_name('professors')
-client_profs.set_collection('professors')
-
 print('Adding Koofers course data')
 
 course_list = get_course_list()
 for course in course_list:
     print(course)
-    client_courses.course_update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc())
+    client_courses.update({"course_id": course.course_number, "code": course.subject_code}, course.dataToUpdateDoc())
   
 client_courses.disconnect()
 
 print('Finished adding course data')
+
+client_profs = ConnectM(HOST, PORT)
+client_profs.connect()
+client_profs.set_database_name('professors')
+client_profs.set_collection('professors')
     
 print('Adding RateMyProfessors professor data')
     
@@ -43,7 +43,7 @@ for prof in prof_list:
     print(prof)
     data_doc = prof.dataToDoc()
     update_check = {'first_name': data_doc['first_name'], 'last_name': data_doc['last_name']}
-    client_profs.update(update_check, data_doc)
+    client_profs.update(update_check, {'$set': data_doc})
 
 client_profs.disconnect()
 
