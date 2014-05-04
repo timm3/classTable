@@ -11,15 +11,15 @@ from scraper.MyIllinoisXMLRequest import MyIllinoisXMLRequest
 
 
 #==========================================================================  
-#
+# This class parses XML formated strings of course data to Python objects.
 #==========================================================================  
 class XMLReader(object):
     
     #==========================================================================  
-    #    
+    #    This function retrieves term data from term XML string.
     #   
-    #    @param 
-    #    @return 
+    #    @param string XML formatted term data
+    #    @return object that holds term data
     #==========================================================================  
     @staticmethod
     def extract_terms_data(xml_input):
@@ -44,10 +44,10 @@ class XMLReader(object):
     
     
     #==========================================================================  
-    #    
+    #   This function retrieves class subject data from an XmL formatted string.
     #   
-    #    @param 
-    #    @return 
+    #    @param string XML formatted subject data
+    #    @return object that holds course subject data
     #==========================================================================  
     @staticmethod
     def extract_subjects_data(xml_input):
@@ -86,10 +86,10 @@ class XMLReader(object):
           
            
     #==========================================================================  
-    #    
+    #   This function retrieves class id data from an XmL formatted string.
     #   
-    #    @param 
-    #    @return 
+    #   @param string XML formatted id data
+    #   @return object that holds course id data
     #==========================================================================        
     @staticmethod
     def extract_class_ids(xml_input):
@@ -109,7 +109,7 @@ class XMLReader(object):
     
     #==========================================================================  
     #    request_data gets xml formatted string from MyIllinois appropriate
-    #    for passed parameters. If a parameter is not availagble pass None.
+    #    for passed parameters. If a parameter is not available pass None.
     #    @param
     #    @return
     #==========================================================================
@@ -128,11 +128,11 @@ class XMLReader(object):
         
         
     #==========================================================================  
-    #    
+    #   This function retrieves general course data from an XmL formatted string.
     #   
-    #    @param 
-    #    @return 
-    #========================================================================== 
+    #   @param string XML formatted course data
+    #   @return object that holds course data
+    #==========================================================================  
     @staticmethod
     def extract_class_general_data(xml_input):    
 
@@ -182,11 +182,11 @@ class XMLReader(object):
     
     
     #==========================================================================  
-    #    
+    #   This function retrieves specific section data from an XmL formatted string.
     #   
-    #    @param 
-    #    @return 
-    #========================================================================== 
+    #   @param string XML formatted section data
+    #   @return object that holds course section data
+    #==========================================================================  
     @staticmethod
     def extract_section_data(xml_input):
         
@@ -283,7 +283,12 @@ class XMLReader(object):
         
         return meeting_data
     
-    
+    #==========================================================================  
+    #   This function retrieves class id data from an XmL formatted string.
+    #   
+    #   @param string XML formatted id data
+    #   @return object that holds course id data
+    #==========================================================================  
     @staticmethod
     def parse_time(time):
         time_int = 0
@@ -369,25 +374,3 @@ class XMLReader(object):
                 break
         
         return course_id
-    
-    
-'''
-print("script start XMLReader:")  
-
-from urllib.request import urlopen 
-
-term_data = urlopen('http://courses.illinois.edu/cisapp/explorer/schedule/2014.xml').read()
-
-terms = XMLReader.extract_terms_data(term_data)
-
-for t in terms:
-    print("year: " + str(t.year) + " term: " + str(t.term))
-
-print("script end XMLReader.")
-'''
-
-
-
-
-
-

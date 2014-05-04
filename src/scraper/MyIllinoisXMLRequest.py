@@ -19,10 +19,8 @@ URLInfo = namedtuple('URLInfo', 'year term code course_id crn')
 class MyIllinoisXMLRequest(object):
 
     #==========================================================================  
-    #    TODO: define behavior in case of request exceptions such as error 404,
-    #    500, ...
-    
-    #    Get 
+    # This function retrieves an XML formatted data for a class matching given 
+    # URL information.
     #========================================================================== 
     @staticmethod
     def get_data(url_info):
@@ -37,7 +35,9 @@ class MyIllinoisXMLRequest(object):
         
     
     #==========================================================================  
-    #
+    # This function builds a URL to a specified XML for given information.
+    # @param namedtuple with information to be retrieved
+    # @return string url to data on the unisersity server
     #========================================================================== 
     @staticmethod
     def build_url(url_info):
@@ -56,7 +56,10 @@ class MyIllinoisXMLRequest(object):
     
     
     #==========================================================================  
-    #
+    # This function gets XML data from the university server at the given 
+    # URL.
+    # @param string URL to the data on the server
+    # @return string data in XML format
     #========================================================================== 
     @staticmethod
     def request_data(request_url):

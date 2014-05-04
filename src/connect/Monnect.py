@@ -14,12 +14,13 @@ from data.ClassSection import ClassSection
 
 
 #==========================================================================  
-#
+# This class provides communication with the MongoDB database 
+# that stores course information.
 #==========================================================================
 class ConnectM(object):
 
     #==========================================================================  
-    #
+    # Class constructor.
     #==========================================================================
     def __init__(self, host, port):
         self.host = host
@@ -30,7 +31,7 @@ class ConnectM(object):
         
         
     #==========================================================================  
-    #
+    # This function opens a connection with the database.
     #==========================================================================
     def connect(self):
         
@@ -44,7 +45,7 @@ class ConnectM(object):
 
 
     #==========================================================================  
-    #
+    # This function closses a connection with the database.
     #==========================================================================
     def disconnect(self):
         
@@ -54,7 +55,9 @@ class ConnectM(object):
            
 
     #==========================================================================  
-    #
+    # This function is a mutator for the database name property.
+    # @param db_name string database name
+    # @return previous database name 
     #==========================================================================
     def set_database_name(self, db_name):
         
@@ -65,7 +68,9 @@ class ConnectM(object):
         
         
     #==========================================================================  
-    #
+    # This function is a mutator for the collection name property.
+    # @param sollection_name string name of a collection
+    # @return string previous collection name
     #==========================================================================
     def set_collection(self, collection_name):
         
@@ -76,7 +81,9 @@ class ConnectM(object):
         
         
     #==========================================================================  
-    #
+    # This function checks if a course exists in the database.
+    # @param course dictionary with course data
+    # @return boolean true if the course is in the database, false if not 
     #==========================================================================
     def course_exists(self, course):
         
@@ -91,7 +98,9 @@ class ConnectM(object):
         
         
     #==========================================================================  
-    #
+    # This function inserts a course into the database.
+    # @param dictionary course data
+    # @return boolean result of the insert: true on success, false on failure
     #==========================================================================
     def course_insert(self, course):
         
@@ -104,7 +113,9 @@ class ConnectM(object):
         
         
     #==========================================================================  
-    #
+    # This function checks if the given section exists in the database.
+    # @param dictionary section data
+    # @return boolean result of the check: true if it's in, false if not 
     #==========================================================================
     def section_exists(self, section):
         
@@ -119,7 +130,9 @@ class ConnectM(object):
          
          
     #==========================================================================  
-    #
+    # This function inserts a section into the database.
+    # @param dictionary section data
+    # @return boolean result of the insert: true on success, false on failure
     #==========================================================================
     def section_insert(self, section):  
         
@@ -132,7 +145,9 @@ class ConnectM(object):
     
              
     #==========================================================================  
-    #
+    # This function updates an entry in the database.
+    # @param query
+    # @return  
     #==========================================================================
     def update(self, query, data):
         
@@ -145,7 +160,7 @@ class ConnectM(object):
         
          
     #==========================================================================  
-    #
+    # 
     #==========================================================================
     def insert(self, data):  
         
@@ -180,61 +195,3 @@ class ConnectM(object):
     
     def get_collectionn_name(self):
         return self.collection_name
-    
-    
-'''    
-print('script start ConnectM:')
-host = 'digitalocean-4.perryhuang.com'
-port = 27017
-
-client = ConnectM(host, port)
-client.connect()
-
-client.set_database_name('courses')
-entries = client.set_collection('courses_general')
-
-ClassGenInfo = namedtuple('ClassGenInfo', 'year term code course_id subject title description credit_hours crns')
-class_info = ClassGenInfo('2014', 'spring', 'CS', '428', 'Computer Science', 'Software Engineering II', 'Continuation of CS 427. Software development, management, and maintenance. Project and configuration management, collaborative development models, software quality assurance, interoperability domain engineering and software reuse, and software re-engineering.', ['3', '4'], ['31389', '39377', '40652', ])
-aClass = ClassGeneral(class_info)
-class_dict = aClass.__dict__
-
-if client.course_exists(class_dict) != None:
-    print("entry exists")
-else:
-    print("NO entry")
-    result = client.course_insert(class_dict)
-    print(str(result))
-
-instructors = []
-instr1 = Instructor('D', 'Marinov')
-instr2 = Instructor('A', 'Pranav')
-instructors.append(instr1)
-instructors.append(instr2)
-
-SectionInfo = namedtuple('SectionInfo', 'year term part_of_term c_type section_number crn building_name room_number start_date end_date days_of_week start end instructors')
-section_info = SectionInfo('2013', 'spring', '1', 'LCD', 'Q4', '39377', 'Siebel Center for Comp Sci', '1404', None, None, 'TR   ', '02:00 PM', '03:15 PM', instructors)
-section = ClassSection(section_info)
-section_dict = section.get_dictionary()
-
-if client.section_exists(section_dict) != None:
-    print("Section exists.")
-else:
-    print("Section doesn't exist")
-    result = client.section_insert(section_dict)
-    print(str(result))
-
-dbs = client.client.database_names()
-for db_str in dbs:
-    print("Database: " + db_str)
-    db = client.client[db_str]
-    cls = db.collection_names()
-    for cl in cls:
-        print("\tcollection: " + cl)
-
-client.disconnect()
-print('script end ConnectM.')
-'''
-
-
-
-
